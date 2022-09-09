@@ -12,21 +12,21 @@ Sistema de gerenciamento de contas bancarias, com o intuito de de aprofundar o c
 ### Modelo
 
 -usuario
-  id
-  nome
-  email
-  senha
+* id
+* nome
+* email
+* senha
 
 -conta
-  id
-  descricao_conta
+* id
+* descricao_conta
   
 
--parcela
-  id
-  id_conta
-  data
-  descricao
-  valor
-  situacao
-  dt_pagamento
+-contaparcela
+* id
+* id_conta
+* data
+* descricao
+* valor
+* situacao
+* dt_pagamento
