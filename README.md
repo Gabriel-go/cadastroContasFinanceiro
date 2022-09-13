@@ -20,7 +20,7 @@ Sistema de gerenciamento de contas bancarias, com o intuito de de aprofundar o c
 -conta
 * id
 * descricao_conta
-  
+* id_usuario
 
 -contaparcela
 * id
