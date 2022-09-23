@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using cadastroContasFinanceiro;
 using cadastroContasFinanceiro.Models;
+using cadastroContasFinanceiro.DTO;
 
 namespace cadastroContasFinanceiro.Controllers
 {
@@ -29,7 +30,9 @@ namespace cadastroContasFinanceiro.Controllers
           {
               return NotFound();
           }
-            return await _context.Account.ToListAsync();
+            return await _context.Account
+                .Include(u => u.User)
+                .ToListAsync();
         }
 
         // GET: api/Accounts/5
@@ -53,14 +56,23 @@ namespace cadastroContasFinanceiro.Controllers
         // PUT: api/Accounts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccount(int id, Account account)
+        public async Task<IActionResult> PutAccount(int id, CreateAccountDTO account)
         {
             if (id != account.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(account).State = EntityState.Modified;
+            User pUser = await _context.User.FindAsync(account.UserId);
+            Account newAccount = new Account
+            {
+                Id = account.Id,
+                description = account.description,
+                UserId = account.UserId,
+                User = pUser
+            };
+
+            _context.Entry(newAccount).State = EntityState.Modified;
 
             try
             {
@@ -84,13 +96,24 @@ namespace cadastroContasFinanceiro.Controllers
         // POST: api/Accounts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Account>> PostAccount(Account account)
+        public async Task<ActionResult<Account>> PostAccount(CreateAccountDTO account)
         {
-          if (_context.Account == null)
+        if (_context.Account == null)
           {
               return Problem("Entity set 'Contexto.Account'  is null.");
           }
-            _context.Account.Add(account);
+
+        User pUser = await _context.User.FindAsync(account.UserId);
+        Account newAccount = new Account
+        {
+            Id = account.Id,    
+            description = account.description,
+            UserId = account.UserId,
+            User = pUser
+        };
+
+            
+            _context.Account.Add(newAccount);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAccount", new { id = account.Id }, account);

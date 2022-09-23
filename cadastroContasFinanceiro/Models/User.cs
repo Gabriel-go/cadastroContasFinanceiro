@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace cadastroContasFinanceiro.Models
 {
@@ -12,6 +13,7 @@ namespace cadastroContasFinanceiro.Models
         public string Email { get; set; }
         public string Password { get; set; }
 
-        //public List<Account> Accounts { get; }
+        [JsonIgnore]
+        public List<Account> Accounts { get; }
     }
 }

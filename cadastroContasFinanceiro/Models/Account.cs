@@ -13,10 +13,8 @@ namespace cadastroContasFinanceiro.Models
         [StringLength(50)]
         public string description { get; set; }
 
-        public int id_user { get; set; }
-        
-        public User User { get;  }  
-
+        public int UserId { get; set; }        
+        public User User { get; set; }  
 
     }
 }

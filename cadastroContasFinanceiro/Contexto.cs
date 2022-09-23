@@ -13,10 +13,11 @@ namespace cadastroContasFinanceiro
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>()
-            .HasOne(p => p.User);
-            //.WithMany(b => b.Accounts);
-            //.HasForeignKey(p => p.id_user);
-            //.HasPrincipalKey(b => b.Id);
+                .HasOne(p => p.User)
+                .WithMany(b => b.Accounts)
+                .HasForeignKey(p => p.UserId);
+
+           
         }
     }
 }
